@@ -10,6 +10,8 @@ class RequestsController < ApplicationController
     # POST /requests
     def create
       @request = Request.create!(request_params)
+      @request.status = 0
+      @request.save
       json_response(@request, :created)
     end
   
@@ -20,7 +22,7 @@ class RequestsController < ApplicationController
   
     # PUT /requests/:id
     def update
-      @request.update(request_params)
+      @request.forward_status()
       head :no_content
     end
   
@@ -34,7 +36,7 @@ class RequestsController < ApplicationController
   
     def request_params
       # whitelist params
-      params.permit(:title, :created_by)
+      params.permit(:title)
     end
   
     def set_request
