@@ -22,7 +22,12 @@ class RequestsController < ApplicationController
   
     # PUT /requests/:id
     def update
-      @request.forward_status()
+      if params['direction'] == 'forward'
+        @request.forward_status()
+      else
+        @request.undo_status()
+      end
+      @request.save
       head :no_content
     end
   
