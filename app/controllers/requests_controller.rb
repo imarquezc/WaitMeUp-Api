@@ -11,6 +11,7 @@ class RequestsController < ApplicationController
     def create
       @request = Request.create!(request_params)
       @request.status = 0
+      @request.url = request_path(@request)
       @request.save
       json_response(@request, :created)
     end
